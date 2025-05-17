@@ -17,4 +17,28 @@ public abstract class ModeleIA : IntelligenceArtificielle
         }
         return phaseEnum;
     }
+
+    /// <summary>
+    /// Effectue les demandes d'informations au serveur
+    /// </summary>
+    /// <returns>Liste des messages à envoyer</returns>
+    protected List<Message> GetMessagesDemandeInfo()
+    {
+        return
+        [
+            new Message(Dictionnaire.Degats),
+            new Message(Dictionnaire.Joueur),
+            new Message(Dictionnaire.Monstres),
+            new Message(Dictionnaire.Pioches)
+        ];
+    }
+
+    /// <summary>
+    /// Insère les données du serveur en mémoire
+    /// </summary>
+    /// <param name="reponsesServeur">Réponses du serveur à <see cref="GetMessagesDemandeInfo"/></param>
+    protected void InsertionDonnees(List<ReponseServeur> reponsesServeur)
+    {
+        throw new NotImplementedException();
+    }
 }
