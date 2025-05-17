@@ -1,18 +1,18 @@
 ﻿using Interface_communication;
 
-namespace BTBiathlon;
+namespace BTBiathlon.IAs;
 
 public class IALogique : IntelligenceArtificielle
 {
     public override List<Message> GetProtocoleDemarragePartie()
     {
-        return [new Message("Bêta-Testeurs2")];
+        return [new Message("Bêta-Testeurs-Drunken")];
     }
 
     public override List<Message> PhaseTour(int tour, int phase, List<ReponseServeur> reponsesServeur)
     {
         List<Message> messages = new List<Message>();
-        if (phase != 17) //Pas nuit de sang
+        if (phase != 16) //Pas nuit de sang
         {
             if (phase % 4 == 0) //NUIT 
             {
