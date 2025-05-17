@@ -21,6 +21,7 @@ public abstract class ModeleIA : IntelligenceArtificielle
 
 
     protected List<Joueur> joueurs = new List<Joueur>();
+    
     protected TypePhaseEnum GetPhase(int phase)
     {
         var phaseEnum = TypePhaseEnum.Jour; // Si c'est pas la nuit ou la nuit de sang, c'est le jour
@@ -33,6 +34,11 @@ public abstract class ModeleIA : IntelligenceArtificielle
             phaseEnum = TypePhaseEnum.Nuit;
         }
         return phaseEnum;
+    }
+
+    public override List<Message> GetProtocoleDemarragePartie()
+    {
+        return [new Message("Bêta-Testeurs")];
     }
 
     /// <summary>
