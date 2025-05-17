@@ -20,8 +20,12 @@ public abstract class ModeleIA : IntelligenceArtificielle
     protected List<Carte> Pioches => modelePioches;
 
 
-    protected List<Joueur> joueurs = new List<Joueur>();
+    private List<Joueur> joueurs = new List<Joueur>();
+    private List<Monstre> monstres = new List<Monstre>();
     
+    
+    protected List<Joueur> Joueurs => joueurs;
+    protected List<Monstre> Monstres => monstres;
     protected TypePhaseEnum GetPhase(int phase)
     {
         var phaseEnum = TypePhaseEnum.Jour; // Si c'est pas la nuit ou la nuit de sang, c'est le jour
@@ -49,10 +53,10 @@ public abstract class ModeleIA : IntelligenceArtificielle
     {
         return
         [
-            new Message(Dictionnaire.Degats),
-            new Message(Dictionnaire.Joueur),
-            new Message(Dictionnaire.Monstres),
-            new Message(Dictionnaire.Pioches)
+            new Message(Dictionnaire.Degats, reponseContientVerbe: false),
+            new Message(Dictionnaire.Joueur, reponseContientVerbe: false),
+            new Message(Dictionnaire.Monstres, reponseContientVerbe: false),
+            new Message(Dictionnaire.Pioches, reponseContientVerbe: false)
         ];
     }
 
@@ -72,12 +76,63 @@ public abstract class ModeleIA : IntelligenceArtificielle
             {
                 InsertionPioches(reponseServeur);
             }
+            
+            else if (reponseServeur.MessageIa.VerbeMessage == Dictionnaire.Joueur)
+            {
+                InsertionJoueurs(reponseServeur);
+            }
+            else if (reponseServeur.MessageIa.VerbeMessage == Dictionnaire.Monstres)
+            {
+                InsertionMonstres(reponseServeur);
+            }
         }
     }
 
 
-    private void getInfoJoueur(ReponseServeur reponseServeur)
+    private void InsertionJoueurs(ReponseServeur reponseServeur)
     {
+        joueurs.Clear();
+
+        string[] infosJoueurs = reponseServeur.Arguments;
+        int nbValeursParJoueur = 4;
+
+        for (int i = 0; i < infosJoueurs.Length; i += nbValeursParJoueur)
+        {
+            if (i + 3 >= infosJoueurs.Length)
+                break;
+
+            Joueur joueur = new Joueur
+            {
+                Id = i / nbValeursParJoueur,
+                Vie = int.Parse(infosJoueurs[i]),
+                ScoreDefense = int.Parse(infosJoueurs[i + 1]),
+                ScoreAttaque = int.Parse(infosJoueurs[i + 2]),
+                ScoreSavoir = int.Parse(infosJoueurs[i + 3])
+            };
+
+            joueurs.Add(joueur);
+        }
+    }
+
+    private void InsertionMonstres(ReponseServeur reponseServeur)
+    {
+        monstres.Clear();
+        
+        string[] infosMonstres = reponseServeur.Arguments;
+        
+        int nbValeursParMonstre = 2;
+
+        for (int i = 0; i < infosMonstres.Length; i += nbValeursParMonstre)
+        {
+            Monstre monstre = new Monstre()
+            {
+                Id = i / nbValeursParMonstre,
+                Vie = int.Parse(infosMonstres[i]),
+                Savoir = int.Parse(infosMonstres[i + 1]),
+            };
+            
+            monstres.Add(monstre);
+        }
         
     }
 
@@ -126,4 +181,7 @@ public abstract class ModeleIA : IntelligenceArtificielle
 
         return type;
     }
+
+    
+    
 }
