@@ -1,5 +1,3 @@
-﻿// See https://aka.ms/new-console-template for more information
-
 using BTBiathlon;
 using BTBiathlon.IAs;
 using Interface_communication.Utils;
