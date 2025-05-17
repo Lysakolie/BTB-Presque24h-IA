@@ -8,5 +8,5 @@ Config.NombrePhaseTour= 1;//Potentiellement faire une énum ?
 Logger.NiveauLog = NiveauxLog.Info;
 
 //IA
-ModeleIA drunken = new IADefense();
-drunken.Jouer();
+ModeleIA morgane = new IAMorgane();
+morgane.Jouer();
