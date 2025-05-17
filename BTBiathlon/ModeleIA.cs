@@ -7,6 +7,7 @@ public abstract class ModeleIA : IntelligenceArtificielle
 {
     
     protected List<Joueur> joueurs = new List<Joueur>();
+    protected List<Monstre> monstres = new List<Monstre>();
     protected TypePhaseEnum GetPhase(int phase)
     {
         var phaseEnum = TypePhaseEnum.Jour; // Si c'est pas la nuit ou la nuit de sang, c'est le jour
@@ -48,6 +49,50 @@ public abstract class ModeleIA : IntelligenceArtificielle
 
     private void getInfoJoueur(ReponseServeur reponseServeur)
     {
-        
+        joueurs.Clear();
+
+        string[] infosJoueurs = reponseServeur.Arguments;
+        int nbValeursParJoueur = 4;
+
+        for (int i = 0; i < infosJoueurs.Length; i += nbValeursParJoueur)
+        {
+            if (i + 3 >= infosJoueurs.Length)
+                break;
+
+            Joueur joueur = new Joueur
+            {
+                Id = i / nbValeursParJoueur,
+                Vie = int.Parse(infosJoueurs[i]),
+                ScoreDefense = int.Parse(infosJoueurs[i + 1]),
+                ScoreAttaque = int.Parse(infosJoueurs[i + 2]),
+                ScoreSavoir = int.Parse(infosJoueurs[i + 3])
+            };
+
+            joueurs.Add(joueur);
+        }
     }
+
+    private void getInfoMonstre(ReponseServeur reponseServeur)
+    {
+        monstres.Clear();
+        
+        string[] infosMonstres = reponseServeur.Arguments;
+        
+        int nbValeursParMonstre = 2;
+
+        for (int i = 0; i < infosMonstres.Length; i += nbValeursParMonstre)
+        {
+            Monstre monstre = new Monstre()
+            {
+                Id = i / nbValeursParMonstre,
+                Vie = int.Parse(infosMonstres[i]),
+                Savoir = int.Parse(infosMonstres[i + 1]),
+            };
+            
+            monstres.Add(monstre);
+        }
+    }
+
+    
+    
 }
