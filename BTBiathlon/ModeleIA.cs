@@ -1,9 +1,12 @@
+using BTBiathlon.Model;
 using Interface_communication;
 
 namespace BTBiathlon;
 
 public abstract class ModeleIA : IntelligenceArtificielle
 {
+    
+    protected List<Joueur> joueurs = new List<Joueur>();
     protected TypePhaseEnum GetPhase(int phase)
     {
         var phaseEnum = TypePhaseEnum.Jour; // Si c'est pas la nuit ou la nuit de sang, c'est le jour
@@ -40,5 +43,11 @@ public abstract class ModeleIA : IntelligenceArtificielle
     protected void InsertionDonnees(List<ReponseServeur> reponsesServeur)
     {
         throw new NotImplementedException();
+    }
+
+
+    private void getInfoJoueur(ReponseServeur reponseServeur)
+    {
+        
     }
 }
