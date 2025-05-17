@@ -6,6 +6,12 @@ namespace BTBiathlon;
 public abstract class ModeleIA : IntelligenceArtificielle
 {
     private int degatsDameRouge = 10;
+
+    /// <summary>
+    /// Dégâts actuels de la dame en rouge
+    /// </summary>
+    protected int DegatsDameRouge => degatsDameRouge;
+
     
     
     protected List<Joueur> joueurs = new List<Joueur>();
