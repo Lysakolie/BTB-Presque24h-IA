@@ -85,32 +85,39 @@ public abstract class ModeleIA : IntelligenceArtificielle
         List<string[]> pioches = new();
         List<Carte> modelePioches = new();
 
-        foreach (string carte in reponse.Arguments)
+        for (int i = 0; i < reponse.Arguments.Length; i += 2)
         {
-            pioches.Add(carte.Split(";"));
+            pioches.Add([reponse.Arguments[i], reponse.Arguments[i + 1]]);
         }
         
         foreach (string[] carte in pioches)
         {
-            TypeCarteEnum type;
-            switch (carte[0])
-            {
-                case "DEFENSE":
-                    type = TypeCarteEnum.Defense;
-                    break;
-                case "ATTAQUE":
-                    type = TypeCarteEnum.Attaque;
-                    break;
-                case "SAVOIR":
-                    type = TypeCarteEnum.Savoir;
-                    break;
-                default:
-                    Logger.Log(NiveauxLog.Erreur, $"Type de carte inconnu : {carte[0]}");
-                    throw new Exception($"Type de carte inconnu : {carte[0]}");
-            }
+            TypeCarteEnum type = GetTypeCarte(carte);
             modelePioches.Add(new Carte(int.Parse(carte[1]), type));
         }
         
         this.modelePioches = modelePioches;
+    }
+
+    private static TypeCarteEnum GetTypeCarte(string[] carte)
+    {
+        TypeCarteEnum type;
+        switch (carte[0])
+        {
+            case "DEFENSE":
+                type = TypeCarteEnum.Defense;
+                break;
+            case "ATTAQUE":
+                type = TypeCarteEnum.Attaque;
+                break;
+            case "SAVOIR":
+                type = TypeCarteEnum.Savoir;
+                break;
+            default:
+                Logger.Log(NiveauxLog.Erreur, $"Type de carte inconnu : {carte[0]}");
+                throw new Exception($"Type de carte inconnu : {carte[0]}");
+        }
+
+        return type;
     }
 }
