@@ -5,6 +5,8 @@ namespace BTBiathlon;
 
 public abstract class ModeleIA : IntelligenceArtificielle
 {
+    private int degatsDameRouge = 10;
+    
     
     protected List<Joueur> joueurs = new List<Joueur>();
     protected TypePhaseEnum GetPhase(int phase)
@@ -42,7 +44,13 @@ public abstract class ModeleIA : IntelligenceArtificielle
     /// <param name="reponsesServeur">Réponses du serveur à <see cref="GetMessagesDemandeInfo"/></param>
     protected void InsertionDonnees(List<ReponseServeur> reponsesServeur)
     {
-        throw new NotImplementedException();
+        foreach (ReponseServeur reponseServeur in reponsesServeur)
+        {
+            if (reponseServeur.MessageIa.VerbeMessage == Dictionnaire.Degats)
+            {
+                InsertionDegatsDameRouge(reponseServeur);
+            }
+        }
     }
 
 
@@ -50,4 +58,9 @@ public abstract class ModeleIA : IntelligenceArtificielle
     {
         
     }
+
+    private void InsertionDegatsDameRouge(ReponseServeur reponse)
+    {
+        this.degatsDameRouge = int.Parse(reponse.Arguments[0]);
+    } 
 }
