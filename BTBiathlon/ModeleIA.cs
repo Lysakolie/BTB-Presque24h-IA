@@ -45,6 +45,11 @@ public abstract class ModeleIA : IntelligenceArtificielle
         return phaseEnum;
     }
 
+    public override List<Message> GetProtocoleDemarragePartie()
+    {
+        return [new Message("Les Bêta Testeurs du BUT")];
+    }
+
 
     /// <summary>
     /// Effectue les demandes d'informations au serveur
