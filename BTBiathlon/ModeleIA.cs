@@ -28,17 +28,19 @@ public abstract class ModeleIA : IntelligenceArtificielle
     protected List<Monstre> Monstres => monstres;
     protected TypePhaseEnum GetPhase(int phase)
     {
+        int phaseServeur = phase+1;
         var phaseEnum = TypePhaseEnum.Jour; // Si c'est pas la nuit ou la nuit de sang, c'est le jour
-        if (phase == 16) // 17ème phase -> nuit de sang
+        if (phaseServeur == 17) // 17ème phase -> nuit de sang
         {
             phaseEnum = TypePhaseEnum.NuitSang;
         }
-        else if (phase % 4 == 0) // Une phase sur 4 est une phase de nuit
+        else if (phaseServeur % 4 == 0) // Une phase sur 4 est une phase de nuit
         {
             phaseEnum = TypePhaseEnum.Nuit;
         }
         return phaseEnum;
     }
+
 
     /// <summary>
     /// Effectue les demandes d'informations au serveur
@@ -176,7 +178,4 @@ public abstract class ModeleIA : IntelligenceArtificielle
 
         return type;
     }
-
-    
-    
 }

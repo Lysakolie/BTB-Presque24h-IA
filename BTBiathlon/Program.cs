@@ -1,11 +1,12 @@
-﻿using BTBiathlon;
+using BTBiathlon;
+using BTBiathlon.IAs;
 using Interface_communication.Utils;
 using Interface_communication.Utils.Logging;
 
 //Config
-Config.NombrePhaseTour= 17;//Potentiellement faire une énum ?
+Config.NombrePhaseTour= 1;//Potentiellement faire une énum ?
 Logger.NiveauLog = NiveauxLog.Info;
 
 //IA
-IALogique drunken = new IALogique();
+ModeleIA drunken = new IADefense();
 drunken.Jouer();
