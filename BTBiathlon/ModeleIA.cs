@@ -20,8 +20,12 @@ public abstract class ModeleIA : IntelligenceArtificielle
     protected List<Carte> Pioches => modelePioches;
 
 
-    protected List<Joueur> joueurs = new List<Joueur>();
-    protected List<Monstre> monstres = new List<Monstre>();
+    private List<Joueur> joueurs = new List<Joueur>();
+    private List<Monstre> monstres = new List<Monstre>();
+    
+    
+    protected List<Joueur> Joueurs => joueurs;
+    protected List<Monstre> Monstres => monstres;
     protected TypePhaseEnum GetPhase(int phase)
     {
         var phaseEnum = TypePhaseEnum.Jour; // Si c'est pas la nuit ou la nuit de sang, c'est le jour
