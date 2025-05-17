@@ -1,19 +1,25 @@
 using BTBiathlon.Model;
 using Interface_communication;
+using Interface_communication.Utils.Logging;
 
 namespace BTBiathlon;
 
 public abstract class ModeleIA : IntelligenceArtificielle
 {
     private int degatsDameRouge = 10;
+    private List<Carte> modelePioches = new();
 
     /// <summary>
     /// Dégâts actuels de la dame en rouge
     /// </summary>
     protected int DegatsDameRouge => degatsDameRouge;
 
-    
-    
+    /// <summary>
+    /// Etat de la pioche
+    /// </summary>
+    protected List<Carte> Pioches => modelePioches;
+
+
     protected List<Joueur> joueurs = new List<Joueur>();
     protected TypePhaseEnum GetPhase(int phase)
     {
@@ -56,6 +62,10 @@ public abstract class ModeleIA : IntelligenceArtificielle
             {
                 InsertionDegatsDameRouge(reponseServeur);
             }
+            else if (reponseServeur.MessageIa.VerbeMessage == Dictionnaire.Pioches)
+            {
+                InsertionPioches(reponseServeur);
+            }
         }
     }
 
@@ -69,4 +79,38 @@ public abstract class ModeleIA : IntelligenceArtificielle
     {
         this.degatsDameRouge = int.Parse(reponse.Arguments[0]);
     } 
+    
+    private void InsertionPioches(ReponseServeur reponse)
+    {
+        List<string[]> pioches = new();
+        List<Carte> modelePioches = new();
+
+        foreach (string carte in reponse.Arguments)
+        {
+            pioches.Add(carte.Split(";"));
+        }
+        
+        foreach (string[] carte in pioches)
+        {
+            TypeCarteEnum type;
+            switch (carte[0])
+            {
+                case "DEFENSE":
+                    type = TypeCarteEnum.Defense;
+                    break;
+                case "ATTAQUE":
+                    type = TypeCarteEnum.Attaque;
+                    break;
+                case "SAVOIR":
+                    type = TypeCarteEnum.Savoir;
+                    break;
+                default:
+                    Logger.Log(NiveauxLog.Erreur, $"Type de carte inconnu : {carte[0]}");
+                    throw new Exception($"Type de carte inconnu : {carte[0]}");
+            }
+            modelePioches.Add(new Carte(int.Parse(carte[1]), type));
+        }
+        
+        this.modelePioches = modelePioches;
+    }
 }
