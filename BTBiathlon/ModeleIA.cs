@@ -48,10 +48,10 @@ public abstract class ModeleIA : IntelligenceArtificielle
     {
         return
         [
-            new Message(Dictionnaire.Degats),
-            new Message(Dictionnaire.Joueur),
-            new Message(Dictionnaire.Monstres),
-            new Message(Dictionnaire.Pioches)
+            new Message(Dictionnaire.Degats, reponseContientVerbe: false),
+            new Message(Dictionnaire.Joueur, reponseContientVerbe: false),
+            new Message(Dictionnaire.Monstres, reponseContientVerbe: false),
+            new Message(Dictionnaire.Pioches, reponseContientVerbe: false)
         ];
     }
 
