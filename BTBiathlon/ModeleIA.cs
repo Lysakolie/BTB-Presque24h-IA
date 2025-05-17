@@ -8,6 +8,7 @@ public abstract class ModeleIA : IntelligenceArtificielle
 {
     private int degatsDameRouge = 10;
     private List<Carte> modelePioches = new();
+    private int id = -1;
 
     /// <summary>
     /// Dégâts actuels de la dame en rouge
@@ -26,6 +27,9 @@ public abstract class ModeleIA : IntelligenceArtificielle
     
     protected List<Joueur> Joueurs => joueurs;
     protected List<Monstre> Monstres => monstres;
+
+    protected int Id => id;
+
     protected TypePhaseEnum GetPhase(int phase)
     {
         int phaseServeur = phase+1;
@@ -53,7 +57,8 @@ public abstract class ModeleIA : IntelligenceArtificielle
             new Message(Dictionnaire.Degats, reponseContientVerbe: false),
             new Message(Dictionnaire.Joueur, reponseContientVerbe: false),
             new Message(Dictionnaire.Monstres, reponseContientVerbe: false),
-            new Message(Dictionnaire.Pioches, reponseContientVerbe: false)
+            new Message(Dictionnaire.Pioches, reponseContientVerbe: false),
+            new Message(Dictionnaire.Moi, reponseContientVerbe: false)
         ];
     }
 
@@ -82,6 +87,12 @@ public abstract class ModeleIA : IntelligenceArtificielle
             {
                 InsertionMonstres(reponseServeur);
             }
+            else if (reponseServeur.MessageIa.VerbeMessage == Dictionnaire.Moi)
+            {
+                Joueur moi = LisJoueur(0, 0, reponseServeur.Arguments);
+                Joueur moiDansLaListe = this.Joueurs.Find(x => moi.Equals(x));
+                this.id = moiDansLaListe.Id;
+            }
         }
     }
 
@@ -98,17 +109,23 @@ public abstract class ModeleIA : IntelligenceArtificielle
             if (i + 3 >= infosJoueurs.Length)
                 break;
 
-            Joueur joueur = new Joueur
-            {
-                Id = i / nbValeursParJoueur,
-                Vie = int.Parse(infosJoueurs[i]),
-                ScoreDefense = int.Parse(infosJoueurs[i + 1]),
-                ScoreAttaque = int.Parse(infosJoueurs[i + 2]),
-                ScoreSavoir = int.Parse(infosJoueurs[i + 3])
-            };
+            Joueur joueur = LisJoueur(i, i / nbValeursParJoueur, infosJoueurs);
 
             joueurs.Add(joueur);
         }
+    }
+
+    private static Joueur LisJoueur(int i, int id, string[] infosJoueurs)
+    {
+        Joueur joueur = new Joueur
+        {
+            Id = id,
+            Vie = int.Parse(infosJoueurs[i]),
+            ScoreDefense = int.Parse(infosJoueurs[i + 1]),
+            ScoreAttaque = int.Parse(infosJoueurs[i + 2]),
+            ScoreSavoir = int.Parse(infosJoueurs[i + 3])
+        };
+        return joueur;
     }
 
     private void InsertionMonstres(ReponseServeur reponseServeur)

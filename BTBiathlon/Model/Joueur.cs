@@ -18,4 +18,13 @@ public class Joueur
     public int ScoreAttaque { get => scoreAttaque; set => scoreAttaque = value; }
     
     public int ScoreSavoir { get => scoreSavoir; set => scoreSavoir = value; }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is Joueur joueur 
+               && this.Vie == joueur.Vie
+               && this.ScoreDefense == joueur.ScoreDefense
+               && this.ScoreAttaque == joueur.ScoreAttaque
+               && this.ScoreSavoir == joueur.ScoreSavoir;
+    }
 }
