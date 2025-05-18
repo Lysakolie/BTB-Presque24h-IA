@@ -47,7 +47,7 @@ public abstract class ModeleIA : IntelligenceArtificielle
 
     public override List<Message> GetProtocoleDemarragePartie()
     {
-        return [new Message("Les Bêta Testeurs du BUT")];
+        return [new Message("Bêta Testeurs")];
     }
 
 
