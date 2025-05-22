@@ -89,7 +89,15 @@ internal class Orchestrateur()
     private ReponseServeur EnvoyerMessage(Message message)
     {
         Connexion.Instance.EnvoyerMessage(message.MessageServeur);
-        var reponse = new ReponseServeur(message, Connexion.Instance.RecevoirMessage());
+        ReponseServeur reponse;
+        if (message.ReponseContientVerbe)
+        {
+            reponse = new ReponseServeur(message, Connexion.Instance.RecevoirMessage());
+        }
+        else
+        {
+            reponse = new ReponseServeur(message, Connexion.Instance.RecevoirMessage(), false);
+        }
         if (reponse.EstErreur)
         {
             Logger.Log(NiveauxLog.Erreur, $"Erreur serveur : {reponse}");
